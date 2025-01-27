@@ -32,6 +32,17 @@
             cursor: pointer;
             width: 200px;
         }
+        @media (max-width: 768px) {
+    video {
+        width: 100%;
+        max-width: 100%; 
+    }
+    .button {
+        width: 90%;
+        font-size: 14px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -53,8 +64,9 @@
             const likedContainer = document.getElementById("likedVideos");
 
             likedContainer.innerHTML = likedVideos.length
-                ? likedVideos.map(video => `<video src="${video.src}" controls></video>`).join("")
+                ? likedVideos.map(video => `<video src="${video.src}" controls style="width:100%;"></video>`).join("")
                 : "<p>Нет окликнутых видео.</p>";
+
         });
     </script>
 </body>
