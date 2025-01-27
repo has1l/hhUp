@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избранное</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        video {
+            display: block;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Избранное</h1>
+    <div id="bookmarkedVideos"></div>
+    <a href="profil.html" class="button">Назад в профиль</a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentUserEmail = localStorage.getItem("currentUserEmail");
+            const users = JSON.parse(localStorage.getItem("users")) || {};
+
+            if (!currentUserEmail || !users[currentUserEmail]) {
+                alert("Пожалуйста, войдите в аккаунт!");
+                return;
+            }
+
+            const bookmarkedVideos = users[currentUserEmail].bookmarkedVideos || [];
+            const bookmarkedContainer = document.getElementById("bookmarkedVideos");
+
+            bookmarkedContainer.innerHTML = bookmarkedVideos.length
+                ? bookmarkedVideos.map(video => `<video src="${video.src}" controls></video>`).join("")
+                : "<p>Нет сохраненных видео.</p>";
+        });
+    </script>
+</body>
+</html>

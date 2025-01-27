@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #e0c3fc, #8ec5fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .profile-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            overflow-wrap: break-word;
+            position: relative;
+        }
+        .button {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background: #ff3333;
+            transform: scale(1.05);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 5px rgba(106, 90, 205, 0.5);
+        }
+        .jobs-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .jobs-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .jobs-list li {
+            margin-bottom: 10px;
+        }
+        .hashtags {
+            color: gray;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Звездный фон */
+        @keyframes fall {
+            to {
+                transform: translate3d(-30em, 0, 0);
+            }
+        }
+
+        @keyframes tail-fade {
+            0%, 50% {
+                width: var(--star-tail-length);
+                opacity: 1;
+            }
+            70%, 80% {
+                width: 0;
+                opacity: 0.4;
+            }
+            100% {
+                width: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            transform: rotate(-45deg);
+            pointer-events: none;
+        }
+
+        .star {
+            --star-color: rgba(255, 255, 255, 0.8);
+            --star-tail-length: 6em;
+            --star-tail-height: 2px;
+            --star-width: calc(var(--star-tail-length) / 6);
+            --fall-duration: 9s;
+            --tail-fade-duration: var(--fall-duration);
+
+            position: absolute;
+            top: var(--top-offset);
+            left: 0;
+            width: var(--star-tail-length);
+            height: var(--star-tail-height);
+            background: linear-gradient(45deg, currentColor, transparent);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 8px currentColor);
+            color: var(--star-color);
+            transform: translate3d(104em, 0, 0);
+            animation: fall var(--fall-duration) var(--fall-delay) linear infinite, tail-fade var(--tail-fade-duration) var(--fall-delay) ease-out infinite;
+        }
+
+        .star::before, .star::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: calc(var(--star-width) / -2);
+            width: var(--star-width);
+            height: 100%;
+            background: linear-gradient(45deg, transparent, currentColor, transparent);
+            border-radius: inherit;
+            animation: blink 2s linear infinite;
+        }
+
+        .star::before {
+            transform: rotate(45deg);
+        }
+
+        .star::after {
+            transform: rotate(-45deg);
+        }
+
+        .star:nth-child(1) {
+            --top-offset: 10%;
+            --fall-duration: 8s;
+            --fall-delay: 0s;
+        }
+
+        .star:nth-child(2) {
+            --top-offset: 20%;
+            --fall-duration: 9s;
+            --fall-delay: 1s;
+        }
+
+        .star:nth-child(3) {
+            --top-offset: 30%;
+            --fall-duration: 7s;
+            --fall-delay: 2s;
+        }
+
+        .star:nth-child(4) {
+            --top-offset: 40%;
+            --fall-duration: 6s;
+            --fall-delay: 3s;
+        }
+
+        .star:nth-child(5) {
+            --top-offset: 50%;
+            --fall-duration: 10s;
+            --fall-delay: 4s;
+        }
+
+        .star:nth-child(6) {
+            --top-offset: 60%;
+            --fall-duration: 9s;
+            --fall-delay: 5s;
+        }
+
+        .star:nth-child(7) {
+            --top-offset: 70%;
+            --fall-duration: 8s;
+            --fall-delay: 6s;
+        }
+
+        .star:nth-child(8) {
+            --top-offset: 80%;
+            --fall-duration: 7s;
+            --fall-delay: 7s;
+        }
+
+        .star:nth-child(9) {
+            --top-offset: 90%;
+            --fall-duration: 6s;
+            --fall-delay: 8s;
+        }
+
+        .star:nth-child(10) {
+            --top-offset: 95%;
+            --fall-duration: 10s;
+            --fall-delay: 9s;
+        }
+
+        .profile-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            overflow-wrap: break-word;
+            position: relative;
+            z-index: 10;
+        }
+
+        .button {
+            background: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background: #ff3333;
+            transform: scale(1.05);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 5px rgba(106, 90, 205, 0.5);
+        }
+
+        .jobs-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .jobs-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .jobs-list li {
+            margin-bottom: 10px;
+        }
+
+        .hashtags {
+            color: gray;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <div class="profile-container" id="profileSection" style="display: none;">
+        <img id="profileAvatar" class="avatar" src="" alt="Аватар" />
+        <h1 id="profileName">Загрузка...</h1>
+        <p id="profileEmail">Почта: Загрузка...</p>
+        <p id="profileAbout">О себе: Загрузка...</p>
+        <div class="jobs-list">
+            <h2>Рекомендуемые вакансии:</h2>
+            <ul id="recommendedJobsList">Загрузка...</ul>
+        </div>
+        <div class="avatar-upload">
+            <input type="file" id="avatarInput" accept="image/*" />
+            <button class="button" id="saveAvatarButton">Сохранить аватар</button>
+        </div>
+        <div class="profile-container">
+            <h1>Профиль</h1>
+            <button class="button" onclick="window.location.href='liked.html'">Окликнутые</button>
+            <button class="button" onclick="window.location.href='bookmarked.html'">Избранное</button>
+        </div>
+                
+        <button class="button" id="logoutButton">Выйти из аккаунта</button>
+        <button class="button" onclick="window.location.href='index.html'">Выйти в меню</button>
+    </div>
+
+    <div class="profile-container" id="loginSection" style="display: none;">
+        <h1>Вход в аккаунт</h1>
+        <input type="email" id="loginEmail" placeholder="Введите вашу почту">
+        <input type="password" id="loginPassword" placeholder="Введите ваш пароль">
+        <p id="loginError" style="color: red; display: none;">Аккаунт не найден или пароль неверен.</p>
+        <button class="button" id="loginButton">Войти</button>
+        <button class="button" onclick="window.location.href='index.html'">Выйти в меню</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const profileSection = document.getElementById("profileSection");
+            const loginSection = document.getElementById("loginSection");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const loginError = document.getElementById("loginError");
+            const recommendedJobsList = document.getElementById("recommendedJobsList");
+            const avatarInput = document.getElementById("avatarInput");
+            const saveAvatarButton = document.getElementById("saveAvatarButton");
+            const profileAvatar = document.getElementById("profileAvatar");
+
+            // Загружаем всех пользователей из localStorage
+            let users = JSON.parse(localStorage.getItem("users")) || {};
+
+            if (typeof users !== "object" || users === null) {
+                users = {};
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+
+            let currentUserEmail = localStorage.getItem("currentUserEmail");
+            let currentUser = currentUserEmail ? users[currentUserEmail] : null;
+
+            const showProfile = () => {
+                if (!currentUser) {
+                    loginSection.style.display = "block";
+                    profileSection.style.display = "none";
+                    return;
+                }
+                profileSection.style.display = "block";
+                loginSection.style.display = "none";
+
+                document.getElementById("profileName").textContent = currentUser.name || "Не указано";
+                document.getElementById("profileEmail").textContent = `Почта: ${currentUserEmail || "Не указана"}`;
+                document.getElementById("profileAbout").textContent = `О себе: ${currentUser.about || "Информация отсутствует"}`;
+                profileAvatar.src = currentUser.avatar || "https://via.placeholder.com/100";
+                recommendedJobsList.innerHTML = currentUser.jobs && currentUser.jobs.length
+                    ? currentUser.jobs.map(job => `
+                        <li>
+                            <strong>${job.title}</strong>: ${job.description}
+                            <br>
+                            <a href="${job.url}" target="_blank">Подробнее</a>
+                        </li>
+                    `).join("")
+                    : "Нет доступных вакансий";
+            };
+
+            const setupEventListeners = () => {
+                logoutButton.addEventListener("click", () => {
+                    localStorage.removeItem("currentUserEmail");
+                    alert("Вы вышли из аккаунта. Для повторного входа введите email и пароль.");
+                    profileSection.style.display = "none";
+                    loginSection.style.display = "block";
+                });
+
+                loginButton.addEventListener("click", () => {
+                    const loginEmail = document.getElementById("loginEmail").value.trim();
+                    const loginPassword = document.getElementById("loginPassword").value.trim();
+
+                    if (users[loginEmail] && users[loginEmail].password === loginPassword) {
+                        currentUserEmail = loginEmail;
+                        currentUser = users[loginEmail];
+                        localStorage.setItem("currentUserEmail", currentUserEmail);
+                        loginError.style.display = "none";
+                        showProfile();
+                    } else {
+                        loginError.style.display = "block";
+                    }
+                });
+
+                saveAvatarButton.addEventListener("click", () => {
+                    const file = avatarInput.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            currentUser.avatar = reader.result;
+                            users[currentUserEmail] = currentUser;
+                            localStorage.setItem("users", JSON.stringify(users));
+                            showProfile();
+                            alert("Аватар сохранен!");
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert("Выберите файл для аватара.");
+                    }
+                });
+            };
+
+            if (currentUser) {
+                showProfile();
+            } else {
+                loginSection.style.display = "block";
+            }
+
+            setupEventListeners();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const currentUserEmail = localStorage.getItem("currentUserEmail");
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (!currentUserEmail || !users[currentUserEmail]) {
+        alert("Пожалуйста, войдите в аккаунт!");
+        return;
+    }
+
+    const user = users[currentUserEmail];
+    const bookmarkedVideos = user.bookmarkedVideos || [];
+    const likedVideos = user.likedVideos || [];
+
+    const bookmarkedContainer = document.getElementById("bookmarkedVideos");
+    const likedContainer = document.getElementById("likedVideos");
+
+    bookmarkedContainer.innerHTML = bookmarkedVideos
+        .map(video => `<video src="${video.src}" controls></video>`)
+        .join("");
+
+    likedContainer.innerHTML = likedVideos
+        .map(video => `<video src="${video.src}" controls></video>`)
+        .join("");
+});
+
+    </script>
+</body>
+</html>

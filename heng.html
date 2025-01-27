@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heng Chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .glowing {
+            position: absolute;
+            min-width: 700px;
+            height: 550px;
+            margin: -150px;
+            transform-origin: right;
+            animation: colorChange 5s linear infinite;
+            z-index: 0;
+        }
+
+        .glowing:nth-child(even) {
+            transform-origin: left;
+        }
+
+        @keyframes colorChange {
+            0% {
+                filter: hue-rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        .glowing span {
+            position: absolute;
+            top: calc(80px * var(--i));
+            left: calc(80px * var(--i));
+            bottom: calc(80px * var(--i));
+            right: calc(80px * var(--i));
+        }
+
+        .glowing span::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -8px;
+            width: 15px;
+            height: 15px;
+            background: #f00;
+            border-radius: 50%;
+        }
+
+        .glowing span:nth-child(3n + 1)::before {
+            background: rgba(134,255,0,1);
+            box-shadow: 0 0 20px rgba(134,255,0,1),
+                0 0 40px rgba(134,255,0,1),
+                0 0 60px rgba(134,255,0,1),
+                0 0 80px rgba(134,255,0,1),
+                0 0 0 8px rgba(134,255,0,.1);
+        }
+
+        .glowing span:nth-child(3n + 2)::before {
+            background: rgba(255,214,0,1);
+            box-shadow: 0 0 20px rgba(255,214,0,1),
+                0 0 40px rgba(255,214,0,1),
+                0 0 60px rgba(255,214,0,1),
+                0 0 80px rgba(255,214,0,1),
+                0 0 0 8px rgba(255,214,0,.1);
+        }
+
+        .glowing span:nth-child(3n + 3)::before {
+            background: rgba(0,226,255,1);
+            box-shadow: 0 0 20px rgba(0,226,255,1),
+                0 0 40px rgba(0,226,255,1),
+                0 0 60px rgba(0,226,255,1),
+                0 0 80px rgba(0,226,255,1),
+                0 0 0 8px rgba(0,226,255,.1);
+        }
+
+        .glowing span:nth-child(3n + 1) {
+            animation: animate 10s alternate infinite;
+        }
+
+        .glowing span:nth-child(3n + 2) {
+            animation: animate-reverse 3s alternate infinite;
+        }
+
+        .glowing span:nth-child(3n + 3) {
+            animation: animate 8s alternate infinite; 
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(180deg);
+            }
+            50% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animate-reverse {
+            0% {
+                transform: rotate(360deg);
+            }
+            
+            50% {
+                transform: rotate(180deg);
+            }
+            
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .card input, .card textarea {
+            display: block;
+            margin: 10px auto;
+            width: 80%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .card button {
+            background: #ff6f61;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .card button:disabled {
+            background: #ddd;
+        }
+
+        .card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .card p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .job-container {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .job-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .job-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .job-link {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .job-link:hover {
+            color: #0056b3;
+        }
+
+        .menu-button {
+            margin-top: 20px;
+            background: #555;
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .menu-button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="glowing">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+    </div>
+    <div class="glowing">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+    </div>
+    <div class="glowing">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+    </div>
+    <div class="card" id="app"></div>
+    <script>
+        const SKILLS_SYNONYMS = {
+            "Программист": ["программист", "кодить", "разработка", "code", "software"],
+            "Дизайн": ["дизайн", "графика", "иллюстрация"],
+            "Веб-разработка": ["веб", "frontend", "верстка"],
+            "Python": ["python", "питон"]
+        };
+
+        const JOBS = [
+            {
+                title: "Разработчик",
+                description: "Работа над программным обеспечением.",
+                skills_required: ["Программист"],
+                url: "https://nn.hh.ru/vacancies/razrabotchik"
+            },
+            {
+                title: "Дизайнер",
+                description: "Создание графического дизайна.",
+                skills_required: ["Дизайн"],
+                url: "https://nn.hh.ru/vacancies/dizayner"
+            },
+            {
+                title: "Frontend-разработчик",
+                description: "Разработка интерфейсов.",
+                skills_required: ["Веб-разработка"],
+                url: "https://nn.hh.ru/search/vacancy?text=Frontend+разработчик&from=suggest_post&salary=&ored_clusters=true&area=66&hhtmFrom=vacancy_search_list&hhtmFromLabel=vacancy_search_line"
+            },
+            {
+                title: "Python-разработчик",
+                description: "Программирование на Python.",
+                skills_required: ["Python"],
+                url: "https://nn.hh.ru/search/vacancy?text=Python+разработчик&from=suggest_post&salary=&ored_clusters=true&area=66&hhtmFrom=vacancy_search_list&hhtmFromLabel=vacancy_search_line"
+            }
+        ];
+
+        const app = document.getElementById("app");
+        let step = 0;
+        let name = "";
+        let email = "";
+        let password = "";
+        let skills = [];
+
+        const saveToProfile = () => {
+            const profileData = {
+                name,
+                email,
+                password,
+                about: skills.join(", "),
+                skills,
+                jobs: JOBS.filter(job =>
+                    job.skills_required.some(skill => skills.includes(skill))
+                )
+            };
+
+            // Загружаем существующих пользователей из localStorage
+            const users = JSON.parse(localStorage.getItem("users")) || {};
+
+            // Добавляем или обновляем данные пользователя
+            users[email] = profileData;
+
+            // Сохраняем обратно в localStorage
+            localStorage.setItem("users", JSON.stringify(users));
+        };
+
+        const render = () => {
+            app.innerHTML = "";
+            if (step === 0) {
+                app.innerHTML = `
+                    <h1>Привет! Как тебя зовут?</h1>
+                    <input id="nameInput" type="text" placeholder="Ваше имя" />
+                    <button id="nextButton" disabled>Дальше</button>
+                `;
+                const nameInput = document.getElementById("nameInput");
+                const nextButton = document.getElementById("nextButton");
+                nameInput.addEventListener("input", () => {
+                    nextButton.disabled = !nameInput.value.trim();
+                });
+                nextButton.addEventListener("click", () => {
+                    name = nameInput.value.trim();
+                    step++;
+                    render();
+                });
+            } else if (step === 1) {
+                app.innerHTML = `
+                    <h1>Привет, ${name}!</h1>
+                    <p>Введите ваш email и пароль.</p>
+                    <input id="emailInput" type="email" placeholder="Ваш email" />
+                    <input id="passwordInput" type="password" placeholder="Ваш пароль" />
+                    <button id="nextButton" disabled>Дальше</button>
+                `;
+                const emailInput = document.getElementById("emailInput");
+                const passwordInput = document.getElementById("passwordInput");
+                const nextButton = document.getElementById("nextButton");
+                const validateInputs = () => {
+                    nextButton.disabled = !emailInput.value.trim() || !passwordInput.value.trim();
+                };
+                emailInput.addEventListener("input", validateInputs);
+                passwordInput.addEventListener("input", validateInputs);
+                nextButton.addEventListener("click", () => {
+                    email = emailInput.value.trim();
+                    password = passwordInput.value.trim();
+                    step++;
+                    render();
+                });
+            } else if (step === 2) {
+                app.innerHTML = `
+                    <h1>Расскажите о себе, ${name}</h1>
+                    <textarea id="aboutInput" placeholder="Ваши навыки"></textarea>
+                    <button id="nextButton" disabled>Готово</button>
+                `;
+                const aboutInput = document.getElementById("aboutInput");
+                const nextButton = document.getElementById("nextButton");
+                aboutInput.addEventListener("input", () => {
+                    nextButton.disabled = !aboutInput.value.trim();
+                });
+                nextButton.addEventListener("click", () => {
+                    const aboutText = aboutInput.value.toLowerCase();
+                    skills = Object.keys(SKILLS_SYNONYMS).filter(skill =>
+                        SKILLS_SYNONYMS[skill].some(keyword => aboutText.includes(keyword))
+                    );
+                    step++;
+                    render();
+                });
+            } else if (step === 3) {
+                saveToProfile();
+                const matchedJobs = JOBS.filter(job =>
+                    job.skills_required.some(skill => skills.includes(skill))
+                );
+
+                app.innerHTML = `
+                    <h1>Спасибо, ${name}!</h1>
+                    <p>Ваши навыки: <strong>${skills.join(", ") || "не найдены"}.</strong></p>
+                    <h2>Рекомендованные вакансии:</h2>
+                    <div class="job-container">
+                        ${
+                            matchedJobs.length
+                                ? matchedJobs
+                                      .map(
+                                          job => `
+                                <div>
+                                    <span class="job-title">${job.title}</span>
+                                    <p class="job-description">${job.description}</p>
+                                    <a class="job-link" href="${job.url}" target="_blank">Подробнее</a>
+                                </div>
+                            `
+                                      )
+                                      .join("")
+                                : "<p>К сожалению, вакансии не найдены.</p>"
+                        }
+                    </div>
+                    <button class="menu-button" onclick="location.href='profil.html';">Перейти в профиль</button>
+                    <button class="menu-button" onclick="location.href='index.html';">Выйти в меню</button>
+                `;
+            }
+        };
+
+        render();
+    </script>
+</body>
+</html>
