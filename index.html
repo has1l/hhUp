@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HH Up Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Palui+SP&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2C2C2C; /* Тёмно-серый фон */
+            color: #fff;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 20px;
+            background: none;
+            position: relative;
+            z-index: 10;
+            color: white;
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #E53935;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            color: #fff;
+            font-weight: bold;
+            position: absolute;
+            z-index: 3;
+             
+        }
+
+        .logo-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 60px;
+            background: #E53935;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .profile-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+
+        .profile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-icon a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .profile-icon:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 60px;
+            right: 0;
+            background: #E53935;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .profile-icon:hover:after {
+            display: block;
+            content: "Имя пользователя";
+        }
+
+        .welcome-section {
+            text-align: center;
+            background: #333;
+            padding: 100px 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle, #ff9a9e, #fad0c4, #fbc2eb);
+            animation: colorShift 30s infinite ease-in-out;
+        }
+
+        .animated-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #ff9a9e, #fad0c4, #fbc2eb);
+            border-radius: 50%;
+            animation: colorShift 30s infinite ease-in-out;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        @keyframes colorShift {
+            0% {
+                background: radial-gradient(circle, #ff9a9e, #fad0c4, #fbc2eb);
+            }
+            25% {
+                background: radial-gradient(circle, #a18cd1, #fbc2eb, #fad0c4);
+            }
+            50% {
+                background: radial-gradient(circle, #fad0c4, #ff9a9e, #a18cd1);
+            }
+            75% {
+                background: radial-gradient(circle, #fbc2eb, #a18cd1, #ff9a9e);
+            }
+            100% {
+                background: radial-gradient(circle, #ff9a9e, #fad0c4, #fbc2eb);
+            }
+        }
+
+        .quotes-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .quote {
+            background: #f9f9f9;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            pointer-events: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            transform: rotate(0deg);
+        }
+
+        .quote:hover {
+            transform: scale(1.1) rotate(0deg);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: #E53935;
+            color: #fff;
+        }
+
+        .robot {
+            width: 150px;
+            margin: 0 auto 20px;
+            z-index: 3;
+        }
+
+        .welcome-section h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+            z-index: 3;
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            color: #fff;
+            margin: 20px 0;
+            font-family: 'Palui SP', sans-serif;
+            z-index: 3;
+        }
+
+        .start-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #E53935;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background 0.7s ease, transform 0.7s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        .start-button:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .shorts-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: #000;
+            display: flex;
+            gap: 20px;
+        }
+
+        .short {
+            flex: 0 0 auto;
+            width: 300px;
+            height: 500px;
+            background: #333;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transition: all 1,5s ease;
+            cursor: pointer;
+
+        }
+
+        .short:hover {
+      transform: scale(1.1); 
+    }
+
+        .short video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .fullscreen-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .fullscreen-container video {
+            width: 80%;
+            height: auto;
+            max-height: 80%;
+        }
+
+        .fullscreen-info {
+            width: 80%;
+            color: #fff;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .fullscreen-info a {
+            color: #00f;
+            text-decoration: underline;
+        }
+
+        .fullscreen-info .actions {
+            position: absolute;
+            top: 50%;
+            right: 600px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .fullscreen-info button {
+            background: #E53935;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .fullscreen-info button:hover {
+            background: #d32f2f;
+        }
+
+        .close-button, .arrow-button {
+            position: absolute;
+            color: #fff;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .close-button {
+            top: 20px;
+            right: 20px;
+        }
+
+        .arrow-button {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .arrow-button.left {
+            left: 20px;
+        }
+
+        .arrow-button.right {
+            right: 20px;
+        }
+
+        h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+        .chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: height 0.3s ease, transform 0.3s ease;
+}
+
+.chat-header {
+    background-color: #E53935;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #444;
+    position: relative;
+}
+
+.toggle-chat {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.toggle-chat:hover {
+    transform: scale(1.2);
+}
+
+.chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    transition: max-height 0.3s ease;
+}
+
+.chat-body.collapsed {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message.user {
+    text-align: right;
+    color: #fad0c4;
+}
+
+.message.bot {
+    text-align: left;
+    color: #a18cd1;
+}
+
+.chat-input-container {
+    display: flex;
+    border-top: 1px solid #444;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 0;
+    background-color: #222;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.send-button {
+    background-color: #E53935;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: white;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+}
+
+.send-button:hover {
+    background-color: #d32f2f;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+            <div class="logo">hh</div>
+     
+            <div class="profile-container">
+                <div class="profile-icon" id="profileIcon" title="Имя пользователя">
+                    <a href="profil.html">
+                        <img id="profileAvatar" src="default-avatar.png" alt="Аватар пользователя">
+                    </a>
+                </div>
+            </div>
+            
+
+    <section class="welcome-section">
+        <div id="bg-wrap" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+  <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+  <radialGradient id="Gradient1" cx="50%" cy="50%" fx="0.441602%" fy="50%" r=".5"><animate attributeName="fx" dur="34s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 0, 255, 1)"></stop><stop offset="100%" stop-color="rgba(255, 0, 255, 0)"></stop></radialGradient>
+  <radialGradient id="Gradient2" cx="50%" cy="50%" fx="2.68147%" fy="50%" r=".5"><animate attributeName="fx" dur="23.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(255, 255, 0, 0)"></stop></radialGradient>
+  <radialGradient id="Gradient3" cx="50%" cy="50%" fx="0.836536%" fy="50%" r=".5"><animate attributeName="fx" dur="21.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 255, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 255, 0)"></stop></radialGradient>
+  <radialGradient id="Gradient4" cx="50%" cy="50%" fx="4.56417%" fy="50%" r=".5"><animate attributeName="fx" dur="23s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 0, 0)"></stop></radialGradient>
+  <radialGradient id="Gradient5" cx="50%" cy="50%" fx="2.65405%" fy="50%" r=".5"><animate attributeName="fx" dur="24.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0,0,255, 1)"></stop><stop offset="100%" stop-color="rgba(0,0,255, 0)"></stop></radialGradient>
+  <radialGradient id="Gradient6" cx="50%" cy="50%" fx="0.981338%" fy="50%" r=".5"><animate attributeName="fx" dur="25.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255,0,0, 1)"></stop><stop offset="100%" stop-color="rgba(255,0,0, 0)"></stop></radialGradient>
+  </defs>
+  <rect x="13.744%" y="1.18473%" width="100%" height="100%" fill="url(#Gradient1)" transform="rotate(334.41 50 50)"><animate attributeName="x" dur="20s" values="25%;0%;25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="21s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="7s" repeatCount="indefinite"></animateTransform></rect>
+  <rect x="-2.17916%" y="35.4267%" width="100%" height="100%" fill="url(#Gradient2)" transform="rotate(255.072 50 50)"><animate attributeName="x" dur="23s" values="-25%;0%;-25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="24s" values="0%;50%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"></animateTransform></rect>
+  <rect x="9.00483%" y="14.5733%" width="100%" height="100%" fill="url(#Gradient3)" transform="rotate(139.903 50 50)"><animate attributeName="x" dur="25s" values="0%;25%;0%" repeatCount="indefinite"></animate><animate attributeName="y" dur="12s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="9s" repeatCount="indefinite"></animateTransform></rect>
+  </svg>
+</div>
+        
+        <div class="quotes-container">
+            <div class="quote" style="top: 15%; left: 10%; transform: rotate(-10deg);">Сам себе босс</div>
+            <div class="quote" style="top: 80%; left: 75%; transform: rotate(5deg);">Карьерный старт</div>
+            <div class="quote" style="top: 15%; left: 80%; transform: rotate(8deg);">Всё смогу</div>
+            <div class="quote" style="top: 30%; left: 25%; transform: rotate(-5deg);">Карманные деньги</div>
+            <div class="quote" style="top: 35%; left: 70%; transform: rotate(10deg);">Стану профи</div>
+            <div class="quote" style="top: 50%; left: 5%; transform: rotate(-12deg);">Заработать на мечту</div>
+            <div class="quote" style="top: 55%; left: 80%; transform: rotate(8deg);">Получу опыт</div>
+            <div class="quote" style="top: 70%; left: 15%; transform: rotate(-5deg);">Первая работа</div>
+        </div>
+        <img src="ai robot.png" alt="Робот Хенг" class="robot">
+        <h2>Привет! Я робот Хэнг</h2>
+        <p>Я помогу тебе найти первую работу или определиться с карьерным путём!</p>
+        <a href="heng.html" class="start-button">Давай знакомиться</a>
+    </section>
+
+    <h2 style="text-align: center; color: white; margin: 20px 0;">Shorts Работодателей уже ждут тебя снизу</h2>
+
+    <section class="shorts-section">
+        <div class="short" onclick="openFullscreen(0)">
+            <video src="IMG_1490.MP4" poster="photo_2025-01-27_01-30-27.jpg" loop muted></video>
+        </div>
+        <div class="short" onclick="openFullscreen(1)">
+            <video src="IMG_1488.MP4" poster="photo_2025-01-27_01-28-31.jpg" loop muted></video>
+        </div>
+        <div class="short" onclick="openFullscreen(2)">
+            <video src="IMG_1489.MP4" poster="photo_2025-01-27_01-28-30.jpg" loop muted></video>
+        </div>
+        <div class="short" onclick="openFullscreen(3)">
+            <video src="example3.mp4" poster="" loop muted></video>
+        </div>
+        <div class="short" onclick="openFullscreen(4)">
+            <video src="example3.mp4" poster="" loop muted></video>
+        </div>
+        <div class="short" onclick="openFullscreen(5)">
+            <video src="example3.mp4" poster="" loop muted></video>
+        </div>
+    </section>
+
+    <div class="fullscreen-container" id="fullscreen-container">
+        <button class="close-button" onclick="closeFullscreen()">&times;</button>
+        <button class="arrow-button left" onclick="changeVideo(-1)">&#8249;</button>
+        <video id="fullscreen-video" autoplay loop controls></video>
+        <div class="fullscreen-info" id="fullscreen-info">
+            <p id="video-description">Описание видео появится здесь... <a href="#" id="video-link">Ссылка</a></p>
+            <div class="actions">
+                <button class="like-button" onclick="likeVideo()">👍 - Лайк</button>
+                <button class="bookmark-button" onclick="bookmarkVideo()">В избранное</button>
+            </div>
+        </div>
+        <button class="arrow-button right" onclick="changeVideo(1)">&#8250;</button>
+    </div>
+
+    <script>
+        const videos = [
+            { src: "IMG_1490.MP4", description: "Описание первого видео с <a href='https://example.com'>полезной ссылкой</a>." },
+            { src: "IMG_1488.MP4", description: "Описание второго видео с <a href='https://example2.com'>другой ссылкой</a>." },
+            { src: "IMG_1489.MP4", description: "Описание третьего видео с <a href='https://example3.com'>ещё одной ссылкой</a>." },
+            { src: "example3.mp4", description: "Описание второго видео с <a href='https://example2.com'>другой ссылкой</a>." },
+            { src: "example3.mp4", description: "Описание второго видео с <a href='https://example2.com'>другой ссылкой</a>." },
+            { src: "example3.mp4", description: "Описание второго видео с <a href='https://example2.com'>другой ссылкой</a>." }
+        ];
+
+        let currentIndex = 0;
+
+        function openFullscreen(index) {
+            currentIndex = index;
+            const fullscreenContainer = document.getElementById('fullscreen-container');
+            const fullscreenVideo = document.getElementById('fullscreen-video');
+            const videoDescription = document.getElementById('video-description');
+
+            fullscreenVideo.src = videos[currentIndex].src;
+            videoDescription.innerHTML = videos[currentIndex].description;
+            fullscreenContainer.style.display = 'flex';
+        }
+
+        function closeFullscreen() {
+            const fullscreenContainer = document.getElementById('fullscreen-container');
+            const fullscreenVideo = document.getElementById('fullscreen-video');
+
+            fullscreenContainer.style.display = 'none';
+            fullscreenVideo.src = '';
+        }
+
+        function changeVideo(direction) {
+            currentIndex = (currentIndex + direction + videos.length) % videos.length;
+            const fullscreenVideo = document.getElementById('fullscreen-video');
+            const videoDescription = document.getElementById('video-description');
+
+            fullscreenVideo.src = videos[currentIndex].src;
+            videoDescription.innerHTML = videos[currentIndex].description;
+        }
+
+        function likeVideo() {
+            alert('Вы поставили лайк этому видео!');
+        }
+
+        function bookmarkVideo() {
+            alert('Видео добавлено в закладки!');
+        }
+    </script>
+<script>
+function openProfile() {
+    window.location.href = 'profile.html';
+}
+</script>
+<script>
+    // Получаем элементы
+    const toggleButton = document.querySelector('.toggle-chat');
+    const chatBody = document.querySelector('.chat-body');
+    const inputField = document.querySelector('.chat-input');
+    const sendButton = document.querySelector('.send-button');
+    const messagesContainer = document.querySelector('.chat-messages');
+
+    // Функция отправки сообщения
+    function sendMessage() {
+        const userMessage = inputField.value.trim(); // Получаем текст из поля ввода
+
+        if (userMessage === '') {
+            return; // Если поле пустое, ничего не делаем
+        }
+
+        // Создаем сообщение пользователя
+        const userMessageElement = document.createElement('div');
+        userMessageElement.classList.add('message', 'user');
+        userMessageElement.textContent = userMessage;
+
+        // Добавляем сообщение пользователя в чат
+        messagesContainer.appendChild(userMessageElement);
+
+        // Очищаем поле ввода
+        inputField.value = '';
+
+        // Автоответ бота
+        const botMessageElement = document.createElement('div');
+        botMessageElement.classList.add('message', 'bot');
+        botMessageElement.textContent = getBotResponse(userMessage); // Получаем ответ бота
+
+        // Добавляем сообщение бота в чат
+        messagesContainer.appendChild(botMessageElement);
+
+        // Прокручиваем контейнер сообщений вниз
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Функция генерации ответа от бота
+    function getBotResponse(userMessage) {
+        if (userMessage.toLowerCase().includes('привет')) {
+            return 'Привет! Как я могу помочь?';
+        } else if (userMessage.toLowerCase().includes('работа')) {
+            return 'Давай найдем тебе первую работу!';
+        } else {
+            return 'Я не совсем понял тебя. Попробуй спросить иначе!';
+        }
+    }
+
+    // Событие: клик на кнопку отправки
+    sendButton.addEventListener('click', sendMessage);
+
+    // Событие: нажатие клавиши Enter в поле ввода
+    inputField.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Событие: сворачивание/разворачивание чата
+    toggleButton.addEventListener('click', () => {
+        chatBody.classList.toggle('collapsed');
+        toggleButton.textContent = chatBody.classList.contains('collapsed') ? '+' : '−';
+    });
+</script>
+
+</script>
+
+<div class="chat-container">
+    <div class="chat-header">
+        Чат
+        <button class="toggle-chat">−</button>
+    </div>
+    <div class="chat-body">
+        <div class="chat-messages">
+            <div class="message bot">Привет! Я бот. Чем могу помочь?</div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" placeholder="Введите сообщение...">
+            <button class="send-button">➤</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const profileAvatar = document.getElementById("profileAvatar");
+        const profileIcon = document.getElementById("profileIcon");
+
+        // Получаем текущего пользователя из localStorage
+        const currentUserEmail = localStorage.getItem("currentUserEmail");
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+
+        // Если пользователь авторизован и есть данные об аватаре
+        if (currentUserEmail && users[currentUserEmail]) {
+            const currentUser = users[currentUserEmail];
+            profileAvatar.src = currentUser.avatar || "default-avatar.png";
+            profileIcon.title = currentUser.name || "Имя пользователя";
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Получаем элементы
+        const toggleButton = document.querySelector('.toggle-chat');
+        const chatBody = document.querySelector('.chat-body');
+        const inputField = document.querySelector('.chat-input');
+        const sendButton = document.querySelector('.send-button');
+        const messagesContainer = document.querySelector('.chat-messages');
+
+        // Функция отправки сообщения
+        function sendMessage() {
+            const userMessage = inputField.value.trim();
+
+            if (userMessage === '') return;
+
+            addMessage('user', userMessage); // Добавляем сообщение пользователя
+            inputField.value = ''; // Очищаем поле ввода
+
+            // Ответ бота
+            setTimeout(() => {
+                const botReply = getBotResponse(userMessage);
+                addMessage('bot', botReply);
+            }, 500);
+        }
+
+        // Функция добавления сообщения
+        function addMessage(sender, text) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = text;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Прокрутка вниз
+        }
+
+        // Генерация ответа бота
+        function getBotResponse(userMessage) {
+            if (userMessage.toLowerCase().includes('привет')) {
+                return 'Привет! Как я могу помочь?';
+            } else if (userMessage.toLowerCase().includes('работа')) {
+                return 'Давай найдем тебе первую работу!';
+            } else {
+                return 'Я не совсем понял тебя. Попробуй спросить иначе!';
+            }
+        }
+
+        // Обработчики событий
+        sendButton.addEventListener('click', sendMessage);
+        inputField.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') sendMessage();
+        });
+
+        toggleButton.addEventListener('click', () => {
+            chatBody.classList.toggle('collapsed');
+            toggleButton.textContent = chatBody.classList.contains('collapsed') ? '+' : '−';
+        });
+    });
+
+</script>
+
+<script>
+    function likeVideo() {
+    const currentUserEmail = localStorage.getItem("currentUserEmail");
+    if (!currentUserEmail) {
+        alert("Пожалуйста, войдите в аккаунт!");
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+    if (!users[currentUserEmail]) {
+        alert("Пользователь не найден!");
+        return;
+    }
+
+    const video = videos[currentIndex];
+    users[currentUserEmail].likedVideos = users[currentUserEmail].likedVideos || [];
+    users[currentUserEmail].likedVideos.push(video);
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Видео добавлено в Окликнутые!");
+}
+
+function bookmarkVideo() {
+    const currentUserEmail = localStorage.getItem("currentUserEmail");
+    if (!currentUserEmail) {
+        alert("Пожалуйста, войдите в аккаунт!");
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+    if (!users[currentUserEmail]) {
+        alert("Пользователь не найден!");
+        return;
+    }
+
+    const video = videos[currentIndex];
+    users[currentUserEmail].bookmarkedVideos = users[currentUserEmail].bookmarkedVideos || [];
+    users[currentUserEmail].bookmarkedVideos.push(video);
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Видео добавлено в Избранное!");
+}
+
+</script>
+
+</body>
+</html>
+
