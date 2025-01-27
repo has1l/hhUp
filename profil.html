@@ -298,6 +298,26 @@
             font-size: 0.9em;
             margin-top: 5px;
         }
+
+        @media (max-width: 768px) {
+    .profile-container {
+        width: 95%;
+        padding: 10px;
+    }
+    .avatar {
+        width: 70px;
+        height: 70px;
+    }
+    input {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .button {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -358,7 +378,7 @@
             const saveAvatarButton = document.getElementById("saveAvatarButton");
             const profileAvatar = document.getElementById("profileAvatar");
 
-            
+            // Загружаем всех пользователей из localStorage
             let users = JSON.parse(localStorage.getItem("users")) || {};
 
             if (typeof users !== "object" || users === null) {
