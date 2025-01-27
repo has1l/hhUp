@@ -301,13 +301,13 @@
                 )
             };
 
-            // Загружаем существующих пользователей из localStorage
+            
             const users = JSON.parse(localStorage.getItem("users")) || {};
 
-            // Добавляем или обновляем данные пользователя
+            
             users[email] = profileData;
 
-            // Сохраняем обратно в localStorage
+            
             localStorage.setItem("users", JSON.stringify(users));
         };
 
